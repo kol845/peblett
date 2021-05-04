@@ -1,5 +1,5 @@
 export default{
-    URL: 'https://peblett.herokuapp.com/',
+    URL: 'https://peblett.herokuapp.com',
     API_VERSION: '/v1',
     USER_URN: '/user',
     REGISTER:'/register',
