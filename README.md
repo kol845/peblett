@@ -9,7 +9,7 @@
 
 - Backend repository: https://github.com/kol845/peblett-backend
 
-- Deployed on Netlify: 
+- Deployed on Netlify: https://priceless-bohr-0720c0.netlify.app
 
 <!-- AUTO-GENERATED-CONTENT:START (STARTER) -->
 <p align="center">
