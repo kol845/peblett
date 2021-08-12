@@ -1,5 +1,3 @@
-
-
 const constants= {
     media:{
         MOBILE: "480px",
@@ -8,9 +6,11 @@ const constants= {
     },
 
     colors:{
-        DARK_SIENNA: "#220901",
-        RED:"#621708",
-        YELLOW:"#F6AA1C"
+        PRIMARY: "#c3073f",
+        SECONDARY: "#950740",
+        DARK_PRIMARY: "#6f2232",
+        BLACK: "#1A1A1D",
+        GRAY: "#4e4e50",
     }
 
 }

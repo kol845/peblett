@@ -1,39 +1,34 @@
 import * as React from "react"
 import PropTypes from "prop-types"
 
-import styled, { createGlobalStyle } from 'styled-components' 
-
-
+import styled from 'styled-components' 
 
 import consts from "./../constants/constants"
+import Transition from "./transition"
 
-
-
-const Layout = ({ children }) => {
-''
+const Layout = ({ children, location }) => {
 
   return (
     <React.Fragment>
-      <GlobalStyle/>
       <RootContainer>
         <ContentContainer>
-          <main>{children}</main>
+          <DotContainer style={{marginTop:"18px"}}>
+            <Dot/>
+            <Dot/>
+          </DotContainer>
+          <Transition location={location}>
+            {children}
+          </Transition>
+          <DotContainer style={{marginBottom:"18px"}}>
+            <Dot/>
+            <Dot/>
+          </DotContainer>
         </ContentContainer>
       </RootContainer>
     </React.Fragment>
 
   )
 }
-const GlobalStyle = createGlobalStyle`
-  body {
-    overflow:hidden;
-    background-color:${consts.colors.DARK_SIENNA};
-    @media (max-width: ${consts.media.MOBILE}) {
-      background-color:${consts.colors.DARK_SIENNA};
-    }
-  }
-
-`
 const RootContainer = styled.div`
   display: flex;
   margin:auto;
@@ -49,15 +44,30 @@ const RootContainer = styled.div`
 `
 const ContentContainer = styled.div`
   display: flex;
+  flex-direction:column;
   margin:auto;
   justify-content: center;
-  background-color:${consts.colors.RED};
+  background-color:${consts.colors.BLACK};
   width: 100%;
-  padding:10px;
+  padding:18px;
   border-radius:20px;
+  color:white;
+  font-size:26px;
 `
-
-
+const Dot = styled.div`
+  height: 12px;
+  width: 12px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+`
+const DotContainer = styled.div`
+display:flex;
+justify-content:space-between;
+@media (max-width: ${consts.media.MOBILE}) {
+  display: none;
+}
+`
 Layout.propTypes = {
   children: PropTypes.node.isRequired,
 }

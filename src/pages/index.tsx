@@ -1,37 +1,66 @@
-import React, { useState } from 'react';
-
-import Layout from '../components/layout'
+import React from 'react';
 import styled from 'styled-components' 
-import consts from "./../constants/constants"
+
+import { navigate } from "gatsby"
+
+import Typography from '@material-ui/core/Typography';
+
 import Seo from "../components/seo"
-
-import { Link } from "gatsby"
-  
-  const RootContainer = styled.div`
-    display: flex;
-    margin:auto;
-    width: 40%;
-    justify-content: center;
-    height:100vh;
-    @media (max-width: ${consts.media.TABLET}) {
-      width: 70%;
-    }
-    @media (max-width: ${consts.media.MOBILE}) {
-      width: 100%;
-    }
-  `
-
+import consts from "../constants/constants"
+import Button from '../components/button'
 
 const Index = () => {
+  const goCreate = ()=>{
+    navigate('/create-wallet')
+  }
+  const goRestore = ()=>{
+    navigate('/restore-wallet')
+  }
   return(
-    <Layout>
-      <Seo title="Welcome" />
-      <RootContainer>
-          THIS IS WELCOME
-          <Link to="/home">Home</Link>
-      </RootContainer>
-    </Layout>
+    <RootContainer>
+      <Seo title="Welcome"/>
+      <ContentContainer>
+        <Typography variant="h3" style={{color:consts.colors.PRIMARY}}>
+            Peblett
+        </Typography>
+        <Underscore/>
+        <Typography variant="h5" style={{margin:"30px"}}>
+            Ethereum Wallet
+        </Typography>
+        <ButtonContainer>
+            <Button text="Create Wallet" onClick={goCreate}/>
+            <Button text="Restore Wallet" onClick={goRestore}/>
+        </ButtonContainer>
+      </ContentContainer>
+    </RootContainer>
   )
 }
 
 export default Index
+
+const RootContainer = styled.div`
+  margin:auto;
+  margin-top:30px;
+  height:70vh;
+  justify-content: center;
+`
+
+const ContentContainer = styled.div`
+  display: flex;
+  flex-direction:column;
+  margin:auto;
+  justify-content: center;
+  height:100%;
+  align-items:center;
+`
+
+const Underscore = styled.div`
+  height: 12px;
+  width: 100px;
+  background-color: white;
+  margin-top:-5px;
+`
+const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction:column;
+`
