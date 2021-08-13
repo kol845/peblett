@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components' 
 import { navigate } from "gatsby";
 
@@ -9,10 +9,35 @@ import BackButton from '../components/backButton';
 import Button from '../components/button'
 import RecoveryBox from '../components/recoveryBox'
 import consts from '../constants/constants'
+import { createWallet, saveWallet } from '../utils/etherHandler'
 
 const tmpRecPhrase="witch collapse practice feed shame open despair creek road again ice least"
 
-const RecoveryPhrase = () => {
+const RecoveryPhrase = ({ location }) => {
+  // const [wallet, setWallet] = useState({});
+  const [wallet, setWallet] = useState<any>(null);
+  let password = location.state ? location.state.password:null;
+
+  const next = async()=>{
+    navigate(
+      "/wallet/",
+      {
+        state:{password:password, wallet:JSON.stringify(wallet)},
+      }
+    )
+  }
+  
+  useEffect(() => {
+    if(location.state == null){
+      navigate("/")
+    }
+    const getWallet =async()=>{      
+      setWallet(await createWallet())
+    }
+    getWallet()
+  }, []);
+
+  let recPhrase = wallet ? wallet.mnemonic.phrase:"loading...";
   
   return(
     <RootContainer>
@@ -24,11 +49,11 @@ const RecoveryPhrase = () => {
             Recovery Seed Phrase
           </Typography>
         </HeaderContainer>
-        <RecoveryBox recPhrase={tmpRecPhrase}/>
+        <RecoveryBox recPhrase={recPhrase}/>
         <Typography variant="subtitle1" style={{width:"50%", textAlign:"center"}}>
           <span style={{fontWeight:"bold", color:consts.colors.PRIMARY}}>Important:</span> Write down this recovery seed phrase somewere safe.
         </Typography>
-        <Button text="Done" onClick={()=>{navigate("/wallet")}} />
+        <Button text="Done" onClick={()=>{next()}} />
     </ContentContainer>
     </RootContainer>
   )

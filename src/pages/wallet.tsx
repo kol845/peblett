@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components' 
-
+import { navigate } from "gatsby";
 
 import Seo from "../components/seo"
 
@@ -19,8 +19,16 @@ const shrinkAddr = (addr)=>{
     return (addr.slice(0,4)+"..."+addr.slice(-3))
 }
 
-const Wallet = () => {
+const Wallet = ({ location }) => {
   const shortAddr = shrinkAddr(tmpAddr)
+  console.log("DICKDICKDICDICK")
+  console.log(location)
+  console.log(location.state)
+  useEffect(() => {
+    if(location.state == null){
+      navigate("/")
+    }
+  }, []);
   return(
     <RootContainer>
         <Seo title="Wallet"/>

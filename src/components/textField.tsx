@@ -4,12 +4,10 @@ import styled from 'styled-components'
 
 import TextField from '@material-ui/core/TextField';
 
-const PebTextFiled = ({ id, label }) => {
+const PebTextFiled = ({ id, label, onChange, value }) => {
     return (
     <React.Fragment>
-        <StyledTextField id={id} label={label} variant="filled" type="password"
-
-        />
+        <StyledTextField id={id} label={label} variant="filled" type="password" value={value} onChange={onChange}/>
     </React.Fragment>
     )
 }
@@ -17,6 +15,8 @@ const PebTextFiled = ({ id, label }) => {
 PebTextFiled.propTypes = {
     id: PropTypes.string,
     label: PropTypes.string,
+    onChange:PropTypes.func,
+    value:PropTypes.string
   };
   
 

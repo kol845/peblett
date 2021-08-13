@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components' 
-import { navigate } from "gatsby";
+import { navigate, Link } from "gatsby";
 
 import Typography from '@material-ui/core/Typography';
 
@@ -8,8 +8,20 @@ import Seo from "../components/seo"
 import TextField from '../components/textField';
 import BackButton from '../components/backButton';
 import Button from '../components/button'
+import { createWallet } from '../utils/etherHandler'
 
 const CreateWallet = () => {
+  let [password, setPassword] = useState("")
+  let [confirmPassword, setConfirmPassword] = useState("")
+  
+  const next = async ()=>{
+    navigate(
+      "/recovery-phrase/",
+      {
+        state:{password:password},
+      }
+    )
+  }
   return(
     <RootContainer>
       <Seo title="Create Wallet"/>
@@ -22,10 +34,10 @@ const CreateWallet = () => {
         </HeaderContainer>
         <Form noValidate autoComplete="off">
           <TextFiledContainer>
-            <TextField id="password" label="Password" />
-            <TextField id="rePassword" label="Confirm Password"/>
+            <TextField id="password" label="Password" value={password} onChange={(e)=>setPassword(e.target.value)}/>
+            <TextField id="confirmPassword" label="Confirm Password" value={confirmPassword} onChange={(e)=>{setConfirmPassword(e.target.value)}}/>
           </TextFiledContainer>
-          <Button text="Create" onClick={()=>{navigate("/recovery-phrase")}} />
+          <Button text="Create" onClick={()=>{ next() }} />
         </Form>
     </ContentContainer>
     </RootContainer>
