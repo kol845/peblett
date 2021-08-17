@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components' 
 import { navigate } from "gatsby";
 
@@ -11,8 +11,11 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import IconButton from '../components/iconButton';
 import Button from '../components/button'
 import consts from '../constants/constants'
+import Loading from '../components/loading'
 
-const tmpAddr="0x2cb66D7ff39178B65c080aD2775687Bfa41fC97E"
+import { getAddress, purgeWallet } from '../utils/etherHandler'
+
+// const tmpAddr="0x2cb66D7ff39178B65c080aD2775687Bfa41fC97E"
 const tmpBalance="0.0"
 
 const shrinkAddr = (addr)=>{
@@ -20,26 +23,35 @@ const shrinkAddr = (addr)=>{
 }
 
 const Wallet = ({ location }) => {
-  const shortAddr = shrinkAddr(tmpAddr)
-  console.log("DICKDICKDICDICK")
-  console.log(location)
-  console.log(location.state)
+  const [loading, setLoading] = useState<boolean>(true);
+
+  const address = getAddress()
+  let shortAddr = "null"
+  if(address) shortAddr = shrinkAddr(address)
+
+  
+  const resetWallet = () =>{
+    purgeWallet()
+    navigate('/')
+  }
+
   useEffect(() => {
-    if(location.state == null){
-      navigate("/")
-    }
+    if(!getAddress()) navigate("/") // If wallet does not exist
+    else setLoading(false)
   }, []);
   return(
     <RootContainer>
         <Seo title="Wallet"/>
         <ContentContainer>
+        {loading ? <Loading/>:
+        <>
         <HeaderContainer>
-            <IconButton ariaLabel="Go to settings" style={{position:"absolute", left:"1%"}} Icon={ColoredSettingsIcon} onClick={()=>{}}/>
+            <StyledIconButton ariaLabel="Go to settings" Icon={ColoredSettingsIcon} onClick={resetWallet}/>
             <Typography variant="h6" style={{}}>
                 {shortAddr}
             </Typography>
         </HeaderContainer>
-        <Sperator/>
+        <Seperator/>
         <BodyContainer>
             <Typography variant="h4" style={{}}>
                     {tmpBalance + " ETH"}
@@ -49,6 +61,7 @@ const Wallet = ({ location }) => {
                 <Button text="Send" onClick={()=>{}} size="half"/>
             </ButtonContainer>
         </BodyContainer>
+        </>}
         </ContentContainer>
     </RootContainer>
   )
@@ -56,10 +69,21 @@ const Wallet = ({ location }) => {
 
 export default Wallet
 
+const StyledIconButton = styled(IconButton)`
+  position:absolute; 
+  left:35%;
+  @media (max-width: ${consts.media.TABLET}) {
+    left: 25%;
+  }
+  @media (max-width: ${consts.media.MOBILE}) {
+    left: 5%;
+  }
+`
+
 const ColoredSettingsIcon = styled(SettingsIcon)`
     color:${consts.colors.PRIMARY};
 `
-const Sperator = styled.div`
+const Seperator = styled.div`
     background-color:white;
     width:100%;
     height:2px; 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components' 
 
 import { navigate } from "gatsby"
@@ -8,29 +8,46 @@ import Typography from '@material-ui/core/Typography';
 import Seo from "../components/seo"
 import consts from "../constants/constants"
 import Button from '../components/button'
+import Loading from '../components/loading'
+
+import { getAddress } from '../utils/etherHandler'
 
 const Index = () => {
+  const [loading, setLoading] = useState<boolean>(true);
+
   const goCreate = ()=>{
     navigate('/create-wallet')
   }
   const goRestore = ()=>{
     navigate('/restore-wallet')
   }
+  useEffect(()=>{
+    if(getAddress())// If wallet already exists
+    navigate(
+      "/wallet/",
+    )
+    else setLoading(false)
+  })
   return(
     <RootContainer>
       <Seo title="Welcome"/>
       <ContentContainer>
+      {loading ? <Loading/>:
+      <>
         <Typography variant="h3" style={{color:consts.colors.PRIMARY}}>
-            Peblett
-        </Typography>
-        <Underscore/>
-        <Typography variant="h5" style={{margin:"30px"}}>
-            Ethereum Wallet
-        </Typography>
-        <ButtonContainer>
-            <Button text="Create Wallet" onClick={goCreate}/>
-            <Button text="Restore Wallet" onClick={goRestore}/>
-        </ButtonContainer>
+        Peblett
+    </Typography>
+    <Underscore/>
+    <Typography variant="h5" style={{margin:"30px"}}>
+        Ethereum Wallet
+    </Typography>
+    <ButtonContainer>
+        <Button text="Create Wallet" onClick={goCreate}/>
+        <Button text="Restore Wallet" onClick={goRestore}/>
+    </ButtonContainer>
+    </>
+      }
+
       </ContentContainer>
     </RootContainer>
   )

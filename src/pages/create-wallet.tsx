@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect }  from 'react';
 import styled from 'styled-components' 
 import { navigate, Link } from "gatsby";
 
@@ -8,7 +8,8 @@ import Seo from "../components/seo"
 import TextField from '../components/textField';
 import BackButton from '../components/backButton';
 import Button from '../components/button'
-import { createWallet } from '../utils/etherHandler'
+import { createWallet, saveWallet, encryptWallet } from '../utils/etherHandler'
+import { getAddress } from '../utils/etherHandler'
 
 const CreateWallet = () => {
   let [password, setPassword] = useState("")
@@ -18,10 +19,19 @@ const CreateWallet = () => {
     navigate(
       "/recovery-phrase/",
       {
-        state:{password:password},
+        state:{
+          password:password,
+        },
       }
     )
   }
+  useEffect(()=>{
+    if(getAddress())// If wallet already exists
+    navigate(
+      "/wallet/",
+    )
+  })
+  
   return(
     <RootContainer>
       <Seo title="Create Wallet"/>

@@ -8,52 +8,59 @@ import Seo from "../components/seo"
 import BackButton from '../components/backButton';
 import Button from '../components/button'
 import RecoveryBox from '../components/recoveryBox'
-import consts from '../constants/constants'
-import { createWallet, saveWallet } from '../utils/etherHandler'
+import Loading from '../components/loading'
 
-const tmpRecPhrase="witch collapse practice feed shame open despair creek road again ice least"
+import consts from '../constants/constants'
+import { createWallet, saveWallet, getAddress } from '../utils/etherHandler'
+
+// const tmpRecPhrase="witch collapse practice feed shame open despair creek road again ice least"
 
 const RecoveryPhrase = ({ location }) => {
   // const [wallet, setWallet] = useState({});
   const [wallet, setWallet] = useState<any>(null);
+  const [loading, setLoading] = useState<any>(false);
   let password = location.state ? location.state.password:null;
 
   const next = async()=>{
+    setLoading(true);
+    await saveWallet(wallet, password)
     navigate(
       "/wallet/",
-      {
-        state:{password:password, wallet:JSON.stringify(wallet)},
-      }
     )
   }
-  
+  const initiateWallet = async ()=>{
+    setWallet(await createWallet())
+  }
+
   useEffect(() => {
     if(location.state == null){
       navigate("/")
     }
-    const getWallet =async()=>{      
-      setWallet(await createWallet())
-    }
-    getWallet()
+    if(getAddress())navigate("/wallet/")// If wallet already exists
+    initiateWallet()
   }, []);
+  let recPhrase = wallet!=null ? wallet._mnemonic().phrase:"loading...";
 
-  let recPhrase = wallet ? wallet.mnemonic.phrase:"loading...";
-  
   return(
     <RootContainer>
       <Seo title="Recovery Seed"/>
       <ContentContainer>
-        <HeaderContainer>
-        <BackButton/>
-          <Typography variant="h5" style={{textDecoration: "underline"}}>
-            Recovery Seed Phrase
+        {loading ? <Loading/>:
+        <>
+          <HeaderContainer>
+          <BackButton/>
+            <Typography variant="h5" style={{textDecoration: "underline"}}>
+              Recovery Seed Phrase
+            </Typography>
+          </HeaderContainer>
+          <RecoveryBox recPhrase={recPhrase}/>
+          <Typography variant="subtitle1" style={{width:"50%", textAlign:"center"}}>
+            <span style={{fontWeight:"bold", color:consts.colors.PRIMARY}}>Important:</span> Write down this recovery seed phrase somewere safe.
           </Typography>
-        </HeaderContainer>
-        <RecoveryBox recPhrase={recPhrase}/>
-        <Typography variant="subtitle1" style={{width:"50%", textAlign:"center"}}>
-          <span style={{fontWeight:"bold", color:consts.colors.PRIMARY}}>Important:</span> Write down this recovery seed phrase somewere safe.
-        </Typography>
-        <Button text="Done" onClick={()=>{next()}} />
+          <Button text="Done" onClick={()=>{next()}} />     
+        </>   
+        }
+
     </ContentContainer>
     </RootContainer>
   )

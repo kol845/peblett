@@ -3,13 +3,12 @@ import * as React from "react"
 import { createGlobalStyle } from 'styled-components' 
 import { StylesProvider } from '@material-ui/core/styles';
 import PropTypes from "prop-types"
-
-import { MuiThemeProvider, createMuiTheme, responsiveFontSizes } from '@material-ui/core/styles';
+import { MuiThemeProvider, createTheme, responsiveFontSizes } from '@material-ui/core/styles';
 
 import '@fontsource/roboto';
 import consts from "./../constants/constants"
 
-let theme = createMuiTheme({
+let theme = createTheme({
   overrides: {
     // MuiFormControl:{
     //   root:{

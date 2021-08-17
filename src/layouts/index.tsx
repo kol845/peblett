@@ -4,10 +4,10 @@ import PropTypes from "prop-types"
 import styled from 'styled-components' 
 
 import consts from "./../constants/constants"
-import Transition from "./transition"
+
+import Transition from "../components/transition"
 
 const Layout = ({ children, location }) => {
-
   return (
     <React.Fragment>
       <RootContainer>
@@ -18,6 +18,7 @@ const Layout = ({ children, location }) => {
           </DotContainer>
           <Transition location={location}>
             {children}
+
           </Transition>
           <DotContainer style={{marginBottom:"18px"}}>
             <Dot/>

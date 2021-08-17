@@ -3,6 +3,7 @@ import {
   TransitionGroup,
   Transition as ReactTransition,
 } from "react-transition-group"
+import PageTransition from 'gatsby-plugin-page-transitions';
 
 /*
 Code from:
@@ -35,6 +36,8 @@ class Transition extends React.PureComponent<ITransitionProps> {
     const { children, location } = this.props
 
     return (
+      <PageTransition transitionTime={5000}>
+
       <TransitionGroup>
         <ReactTransition
           key={location.pathname}
@@ -54,6 +57,7 @@ class Transition extends React.PureComponent<ITransitionProps> {
           )}
         </ReactTransition>
       </TransitionGroup>
+      </PageTransition>
     )
   }
 }

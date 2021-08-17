@@ -8,6 +8,9 @@ import Paper from '@material-ui/core/Paper';
 import consts from '../constants/constants'
 import ClipboardButton from './clipboardButton'
 
+import IconButton from '@material-ui/core/IconButton';
+import FileCopyIcon from '@material-ui/icons/FileCopy';
+
 const RecoveryBox = ({ recPhrase }) => {
     const copyToClipboard = ()=> {
         window.navigator.clipboard.writeText(recPhrase)
@@ -19,11 +22,17 @@ const RecoveryBox = ({ recPhrase }) => {
                 <Text>
                     {recPhrase}
                 </Text>
-                <ClipboardButton onClick={copyToClipboard} style={{position:"absolute", left:"70%"}}/>
+                <StyledIconButton aria-label="Copy to clipboard" onClick={copyToClipboard}>
+                    <FileCopyIcon fontSize="large"/>
+                </StyledIconButton>
             </BoxContainer>
         </RotContainer>
     )
 }
+const StyledIconButton = styled(IconButton)`
+    position:absolute;
+    left: 60%;
+`
 
 const Text = styled(Typography)`
     word-spacing: 16px;
