@@ -28,6 +28,10 @@ const createWallet = async () => {
     return await ethers.Wallet.createRandom()
 }
 
+const createWalletFromMnemonic = async (mnemonic)=>{
+    return await ethers.Wallet.fromMnemonic(mnemonic)
+}
+
 const encryptWallet = async (wallet:Wallet, password:string):Promise<string> => { // Returns wallet in JSON string format
     const jsonWallet = await wallet.encrypt(password);
     return JSON.stringify(jsonWallet)
@@ -48,4 +52,4 @@ const loadWallet = async(password:string):Promise<object>=>{
     return wallet;
 }
 
-export{ createWallet, saveWallet, loadWallet, encryptWallet, decryptWallet, getAddress, purgeWallet }
+export{ createWallet, saveWallet, loadWallet, encryptWallet, decryptWallet, getAddress, purgeWallet, getBalance, createWalletFromMnemonic }

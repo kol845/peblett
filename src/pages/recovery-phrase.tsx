@@ -5,7 +5,7 @@ import { navigate } from "gatsby";
 import Typography from '@material-ui/core/Typography';
 
 import Seo from "../components/seo"
-import BackButton from '../components/backButton';
+import Header from '../components/header';
 import Button from '../components/button'
 import RecoveryBox from '../components/recoveryBox'
 import Loading from '../components/loading'
@@ -47,12 +47,8 @@ const RecoveryPhrase = ({ location }) => {
       <ContentContainer>
         {loading ? <Loading/>:
         <>
-          <HeaderContainer>
-          <BackButton/>
-            <Typography variant="h5" style={{textDecoration: "underline"}}>
-              Recovery Seed Phrase
-            </Typography>
-          </HeaderContainer>
+        <Header text="Recovery Seed Phrase"/>
+
           <RecoveryBox recPhrase={recPhrase}/>
           <Typography variant="subtitle1" style={{width:"50%", textAlign:"center"}}>
             <span style={{fontWeight:"bold", color:consts.colors.PRIMARY}}>Important:</span> Write down this recovery seed phrase somewere safe.
@@ -60,7 +56,6 @@ const RecoveryPhrase = ({ location }) => {
           <Button text="Done" onClick={()=>{next()}} />     
         </>   
         }
-
     </ContentContainer>
     </RootContainer>
   )
@@ -72,7 +67,6 @@ const RootContainer = styled.div`
   margin-top:30px;
   height:70vh;
   justify-content: center;
-
 `
 
 const ContentContainer = styled.div`
@@ -86,11 +80,4 @@ const ContentContainer = styled.div`
     margin:2vh;
   }
 
-`
-const HeaderContainer = styled.div`
-  display: flex;
-  flex-direction:row;
-  justify-content: center;
-  align-items:center;
-  width:100%;
 `

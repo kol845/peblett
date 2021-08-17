@@ -12,8 +12,10 @@ import IconButton from '../components/iconButton';
 import Button from '../components/button'
 import consts from '../constants/constants'
 import Loading from '../components/loading'
+import { Loading as LoadingDot } from 'react-loading-dot'
 
-import { getAddress, purgeWallet } from '../utils/etherHandler'
+
+import { getAddress, purgeWallet, getBalance } from '../utils/etherHandler'
 
 // const tmpAddr="0x2cb66D7ff39178B65c080aD2775687Bfa41fC97E"
 const tmpBalance="0.0"
@@ -24,6 +26,9 @@ const shrinkAddr = (addr)=>{
 
 const Wallet = ({ location }) => {
   const [loading, setLoading] = useState<boolean>(true);
+  const [balance, setBalance] = useState<string>(null);
+  // const [balanceLoading, setBalanceLoading] = useState<boolean>(true);
+
 
   const address = getAddress()
   let shortAddr = "null"
@@ -34,10 +39,17 @@ const Wallet = ({ location }) => {
     purgeWallet()
     navigate('/')
   }
+  const loadBalance = async() =>{
+    setBalance(await getBalance(address))
+  }
+
 
   useEffect(() => {
     if(!getAddress()) navigate("/") // If wallet does not exist
-    else setLoading(false)
+    else {
+      setLoading(false)
+      loadBalance()
+    }
   }, []);
   return(
     <RootContainer>
@@ -54,7 +66,7 @@ const Wallet = ({ location }) => {
         <Seperator/>
         <BodyContainer>
             <Typography variant="h4" style={{}}>
-                    {tmpBalance + " ETH"}
+                    {balance==null ? <LoadingDot size="0.5rem" margin="0.5rem"/>:tmpBalance + " ETH"}
             </Typography>
             <ButtonContainer>
                 <Button text="Receive" onClick={()=>{}} size="half"/>

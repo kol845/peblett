@@ -19,7 +19,7 @@ const Index = () => {
     navigate('/create-wallet')
   }
   const goRestore = ()=>{
-    navigate('/restore-wallet')
+    navigate('/recover-wallet')
   }
   useEffect(()=>{
     if(getAddress())// If wallet already exists
