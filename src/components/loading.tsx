@@ -12,10 +12,10 @@ import consts from '../constants/constants'
 The classname parameter allows this component to be externaly styled with styled-components
 */
 
-const Loading = ({  }) => {
+const Loading = ({  style={} }) => {
 
   return (
-    <Spinner>
+    <Spinner style={style}>
       <StyledCogIcon/>
     </Spinner>
   )

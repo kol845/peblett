@@ -4,23 +4,21 @@ import styled from 'styled-components'
 import TextField from '../textField';
 import Button from '../button'
 
-const PasswordInputScreen = ({ onSubmit }) => {
+const PasswordConfirmation = ({ onSubmit, buttonText="Confirm" }) => {
   let [password, setPassword] = useState("")
-  let [confirmPassword, setConfirmPassword] = useState("")
   
   return(
         <Form noValidate autoComplete="off">
           <TextFiledContainer>
-            <TextField id="password" label="Password" value={password} type="password" onChange={(e)=>setPassword(e.target.value)}/>
-            <TextField id="confirmPassword" label="Confirm Password" type="password" value={confirmPassword} onChange={(e)=>{setConfirmPassword(e.target.value)}}/>
+            <TextField size="full" id="password" label="Confirm Password" value={password} type="password" onChange={(e)=>setPassword(e.target.value)}/>
           </TextFiledContainer>
-          <Button text="Create" onClick={()=>onSubmit(password)} />
+          <Button text={buttonText} onClick={()=>onSubmit(password)} />
         </Form>
 
   )
 }
 
-export default PasswordInputScreen
+export default PasswordConfirmation
 
 const Form = styled.form`
   display: flex;

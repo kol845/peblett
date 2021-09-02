@@ -54,4 +54,12 @@ const loadWallet = async(password:string):Promise<object>=>{
     return wallet;
 }
 
-export{ createWallet, saveWallet, loadWallet, encryptWallet, decryptWallet, getAddress, purgeWallet, getBalance, createWalletFromMnemonic }
+async function sendEth(wallet, toAddr, amnt){
+    const walletSigner = wallet.connect(provider)
+    const tx = await walletSigner.sendTransaction({
+        to: toAddr,
+        value: ethers.utils.parseEther(""+amnt)
+    });
+}
+
+export{ createWallet, saveWallet, loadWallet, encryptWallet, decryptWallet, getAddress, purgeWallet, getBalance, createWalletFromMnemonic, sendEth }

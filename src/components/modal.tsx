@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import Close from '@material-ui/icons/Close';
+import consts from '../constants/constants'
 
 const Background = styled.div`
   width: 100%;
@@ -28,6 +29,13 @@ const ModalWrapper = styled.div`
   justify-content:space-around;
   alignItems:center;
   flexDirection:column;
+  @media (max-width: ${consts.media.TABLET}) {
+    width: 80%;
+  }
+  @media (max-width: ${consts.media.MOBILE}) {
+    width: 90%;
+  }
+
 
 `;
 
@@ -43,15 +51,18 @@ const CloseModalButton = styled(Close)`
   z-index: 10;
 `;
 
-const Modal = ({ show, setShow, children }) => {
+const Modal = ({ show, setShow, children, disableModalExit=false, resetState=null }) => {
   const modalRef = useRef();
 
-  const closeModal = e => {
-    if (modalRef.current === e.target) {
-        setShow(false);
-    }
+  const closeModal = () => {
+    setShow(false);
+    if(resetState != null) resetState();
   };
-
+  const outBoundClick = e =>{
+    if (modalRef.current === e.target && !disableModalExit) {
+      closeModal()
+    }
+  }
   const keyPress = useCallback(
     e => {
       if (e.key === 'Escape' && show) {
@@ -73,13 +84,15 @@ const Modal = ({ show, setShow, children }) => {
   return (
     <>
       {show ? (
-        <Background onClick={closeModal} ref={modalRef}>
+        <Background onClick={outBoundClick} ref={modalRef}>
             <ModalWrapper>
                 {children}
+                {!disableModalExit ? 
                 <CloseModalButton
                     aria-label='Close modal'
-                    onClick={() => setShow(prev => !prev)}
-                />
+                    onClick={() => closeModal()}
+                />: null}
+
             </ModalWrapper>
         </Background>
       ) : null}

@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import consts from '../constants/constants'
 
 const StyledButton = styled(Button)<ButtonProps>`
-  width: ${(props) => (props.length=="full" ? "240px;" : "14vw")};
+  width: ${(props) => (props.length=="full" ? "240px;" : props.length=="max" ? "25vw" : "14vw")};
 
   margin:20px 0px;
   text-transform: none;

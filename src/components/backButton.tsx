@@ -8,10 +8,18 @@ import IconButton from './iconButton';
 
 import consts from '../constants/constants'
 
-const BackButton = ({  }) => {
+/*
+The classname parameter allows this component to be externaly styled with styled-components
+*/
+
+const navBack = ()=>{
+  navigate(-1)
+}
+
+const BackButton = ({ className="", onClick=navBack }) => {
 
   return (
-    <StyledIconButton ariaLabel="Go back" style={{position:"absolute"}} Icon={ArrowBackIcon} onClick={()=>{navigate(-1)}}/>
+    <StyledIconButton className={className} ariaLabel="Go back" style={{position:"absolute"}} Icon={ArrowBackIcon} onClick={onClick}/>
   )
 }
 

@@ -13,7 +13,7 @@ import Button from '../components/button'
 import consts from '../constants/constants'
 import Loading from '../components/loading'
 import Modal from '../components/modal'
-
+import SendModal from '../components/organisms/sendModal'
 import { Loading as LoadingDot } from 'react-loading-dot'
 
 
@@ -29,6 +29,7 @@ const shrinkAddr = (addr)=>{
 const Wallet = ({ location }) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [showReceive, setShowReceive] = useState<boolean>(false);
+  const [showSend, setShowSend] = useState<boolean>(false);
   const [balance, setBalance] = useState<string>(null);
 
   const [qrSrc, setQrSrc] = useState<string>("");
@@ -56,7 +57,8 @@ const Wallet = ({ location }) => {
       setLoading(false)
       loadBalance()
     }
-  }, []);
+  }, [showSend, showReceive]);
+
   return(
     <RootContainer>
         <Seo title="Wallet"/>
@@ -77,7 +79,7 @@ const Wallet = ({ location }) => {
             </Typography>
             <ButtonContainer>
                 <Button text="Receive" onClick={()=>setShowReceive(true)} size="half"/>
-                <Button text="Send" onClick={()=>{}} size="half"/>
+                <Button text="Send" onClick={()=>setShowSend(true)} size="half"/>
             </ButtonContainer>
         </BodyContainer>
         </>}
@@ -89,6 +91,7 @@ const Wallet = ({ location }) => {
           <img src={qrSrc} style={{borderRadius:"10px", width:"50%"}}/>
           </div>
         </Modal>
+        <SendModal show={showSend} setShow={setShowSend} myAddress={address} balance={balance}/>
         </ContentContainer>
     </RootContainer>
   )
