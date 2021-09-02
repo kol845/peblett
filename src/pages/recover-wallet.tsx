@@ -31,10 +31,8 @@ const RecoverWallet = () => {
       <ContentContainer>
 
         <Header text="Recover Wallet"/>
-        <Typography variant="h5" style={{margin:"100px"}}>
-              To be implemented...
-        </Typography>
-        <StyledTextField
+
+        <StyledTextField style={{margin:"100px"}}
           id="recovery-phrase"
           label="Recovery Seed Phrase"
           multiline

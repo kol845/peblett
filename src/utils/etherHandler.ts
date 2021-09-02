@@ -20,8 +20,10 @@ const purgeWallet = () =>{
     localStorage.removeItem(addressStorageName)
 }
 
-const getBalance = (address:string)=>{
-    return provider.getBalance(address);
+const getBalance = async (address:string)=>{
+    const balance = await provider.getBalance(address)
+    const amnt = ethers.utils.formatEther(balance)
+    return amnt;
 }
 
 const createWallet = async () => {

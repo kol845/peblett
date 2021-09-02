@@ -5,13 +5,15 @@ import { navigate } from "gatsby";
 import Seo from "../components/seo"
 
 import Typography from '@material-ui/core/Typography';
-
 import SettingsIcon from '@material-ui/icons/Settings';
+import QRCode from 'qrcode'
 
 import IconButton from '../components/iconButton';
 import Button from '../components/button'
 import consts from '../constants/constants'
 import Loading from '../components/loading'
+import Modal from '../components/modal'
+
 import { Loading as LoadingDot } from 'react-loading-dot'
 
 
@@ -26,7 +28,10 @@ const shrinkAddr = (addr)=>{
 
 const Wallet = ({ location }) => {
   const [loading, setLoading] = useState<boolean>(true);
+  const [showReceive, setShowReceive] = useState<boolean>(false);
   const [balance, setBalance] = useState<string>(null);
+
+  const [qrSrc, setQrSrc] = useState<string>("");
   // const [balanceLoading, setBalanceLoading] = useState<boolean>(true);
 
 
@@ -47,6 +52,7 @@ const Wallet = ({ location }) => {
   useEffect(() => {
     if(!getAddress()) navigate("/") // If wallet does not exist
     else {
+      QRCode.toDataURL(address).then(setQrSrc);
       setLoading(false)
       loadBalance()
     }
@@ -55,6 +61,7 @@ const Wallet = ({ location }) => {
     <RootContainer>
         <Seo title="Wallet"/>
         <ContentContainer>
+
         {loading ? <Loading/>:
         <>
         <HeaderContainer>
@@ -66,14 +73,22 @@ const Wallet = ({ location }) => {
         <Seperator/>
         <BodyContainer>
             <Typography variant="h4" style={{}}>
-                    {balance==null ? <LoadingDot size="0.5rem" margin="0.5rem"/>:tmpBalance + " ETH"}
+                    {balance==null ? <LoadingDot size="0.5rem" margin="0.5rem"/>:balance + " ETH"}
             </Typography>
             <ButtonContainer>
-                <Button text="Receive" onClick={()=>{}} size="half"/>
+                <Button text="Receive" onClick={()=>setShowReceive(true)} size="half"/>
                 <Button text="Send" onClick={()=>{}} size="half"/>
             </ButtonContainer>
         </BodyContainer>
         </>}
+        <Modal show={showReceive} setShow={setShowReceive} >
+          <div style={{display:"flex",justifyContent:"space-around",alignItems:"center", flexDirection:"column",height:"100%"}}>
+          <Typography variant="h6" style={{}}>
+                  {address}
+          </Typography>
+          <img src={qrSrc} style={{borderRadius:"10px", width:"50%"}}/>
+          </div>
+        </Modal>
         </ContentContainer>
     </RootContainer>
   )

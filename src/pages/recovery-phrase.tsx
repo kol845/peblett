@@ -36,7 +36,7 @@ const RecoveryPhrase = ({ location }) => {
     if(location.state == null){
       navigate("/")
     }
-    if(getAddress())navigate("/wallet/")// If wallet already exists
+    if(getAddress())navigate("/wallet/")//   If wallet already exists
     initiateWallet()
   }, []);
   let recPhrase = wallet!=null ? wallet._mnemonic().phrase:"loading...";
