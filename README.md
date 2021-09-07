@@ -8,6 +8,7 @@
 - Uses React-Gatsby with Material UI
 
 - Backend repository: https://github.com/kol845/peblett-backend
+  (Although the backend is discontinued. Peblett is a fully front-end app at the moment.)
 
 - Deployed on Netlify: https://priceless-bohr-0720c0.netlify.app
 
