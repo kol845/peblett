@@ -10,24 +10,26 @@ import Transition from "../components/transition"
 const Layout = ({ children, location }) => {
   return (
     <React.Fragment>
-      <RootContainer>
-        <ContentContainer>
+      <LayoutRoot>
+        <LayoutContent>
           <DotContainer style={{marginTop:"18px"}}>
             <Dot/>
             <Dot/>
           </DotContainer>
+          <Transition location={location}>
             {children}
+          </Transition>
           <DotContainer style={{marginBottom:"18px"}}>
             <Dot/>
             <Dot/>
           </DotContainer>
-        </ContentContainer>
-      </RootContainer>
+        </LayoutContent>
+      </LayoutRoot>
     </React.Fragment>
 
   )
 }
-const RootContainer = styled.div`
+const LayoutRoot = styled.div`
   display: flex;
   margin:auto;
   width: 40%;
@@ -40,7 +42,7 @@ const RootContainer = styled.div`
     width: 100%;
   }
 `
-const ContentContainer = styled.div`
+const LayoutContent = styled.div`
   display: flex;
   flex-direction:column;
   margin:auto;
