@@ -32,7 +32,6 @@ const CreateWallet = () => {
       <Seo title="Create Wallet"/>
       <ContentContainer>
         <Header text="Create Wallet"/>
-
         <PasswordInputScreen onSubmit={next}/>
     </ContentContainer>
     </RootContainer>
