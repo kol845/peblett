@@ -18,7 +18,6 @@ const Layout = ({ children, location }) => {
           </DotContainer>
           <Transition location={location}>
             {children}
-
           </Transition>
           <DotContainer style={{marginBottom:"18px"}}>
             <Dot/>
