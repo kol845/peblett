@@ -13,12 +13,12 @@ interface IWallet{
     _mnemonic:()=>{phrase:string}
 }
 const getAddress = () =>{
-    return localStorage.getItem(addressStorageName)
+    return typeof window !== 'undefined' && localStorage.getItem(addressStorageName)
 }
 
 const purgeWallet = () =>{
-    localStorage.removeItem(walletStorageName)
-    localStorage.removeItem(addressStorageName)
+    typeof window !== 'undefined' && localStorage.removeItem(walletStorageName)
+    typeof window !== 'undefined' && localStorage.removeItem(addressStorageName)
 }
 
 const getBalance = async (address:string)=>{
@@ -46,11 +46,11 @@ const decryptWallet = async (stringWallet:string, password:string):Promise<objec
 // saveWallet() and loadWallet() deal with localStorage
 const saveWallet = async (wallet:IWallet, password:string) => {
     const jsonWallet = await wallet.encrypt(password);
-    localStorage.setItem(walletStorageName, JSON.stringify(jsonWallet))
-    localStorage.setItem(addressStorageName, wallet.address)
+    typeof window !== 'undefined' && localStorage.setItem(walletStorageName, JSON.stringify(jsonWallet))
+    typeof window !== 'undefined' && localStorage.setItem(addressStorageName, wallet.address)
 }
 const loadWallet = async(password:string):Promise<IWallet>=>{
-    const stringWallet = localStorage.getItem(walletStorageName)
+    const stringWallet = typeof window !== 'undefined' && localStorage.getItem(walletStorageName)
     const wallet:IWallet = await ethers.Wallet.fromEncryptedJson(JSON.parse(stringWallet), password)
     return wallet;
 }
