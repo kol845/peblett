@@ -1,76 +1,83 @@
-import React, { useState } from 'react';
-import { Link } from "gatsby"
-import { StaticImage } from "gatsby-plugin-image"
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components' 
 
-import Layout from "../components/layout"
+import { navigate } from "gatsby"
+
+import Typography from '@material-ui/core/Typography';
+
 import Seo from "../components/seo"
+import consts from "../constants/constants"
+import Button from '../components/button'
+import Loading from '../components/loading'
 
-import TextField from '../components/atoms/text_field';
-import Button from '../components/atoms/button';
+import { getAddress } from '../utils/etherHandler'
 
-import { useForm, Controller } from "react-hook-form";
+const Index = () => {
+  const [loading, setLoading] = useState<boolean>(true);
 
-import apiHandler from "../utils/api"
-
-
-
-
-
-
-const IndexPage = () => {
-  
-  const { control, register, handleSubmit, watch, formState: { errors } } = useForm();
-  let [response, setResponse] = useState("")
-  let [loginSucess, setLoginSucess] = useState(false)
-  const doLogin = async (data) =>{
-    await apiHandler.reqLogin(data.uname, data.passwd, postData)
+  const goCreate = ()=>{
+    navigate('/create-wallet')
   }
-  
-  const postData = (data)=>{
-    if(data.status<=299){
-      setLoginSucess(true)
-    }else{
-      setLoginSucess(false)
-    }
-    setResponse(JSON.stringify(data))
+  const goRestore = ()=>{
+    navigate('/recover-wallet')
   }
+  useEffect(()=>{
+    if(getAddress())// If wallet already exists
+    navigate(
+      "/wallet/",
+    )
+    else setLoading(false)
+  })
   return(
-    <Layout>
-    <Seo title="Login" />
-    <h1>Login</h1>
-    <form onSubmit={handleSubmit(doLogin)}>
-      <Controller
-        rules={{ required: true }}
-        name="uname"
-        control={control}
-        defaultValue=""
-        render={({ field }) => <TextField id="uname" label="Username" rest={field}/>}
-      />
-      <Controller
-        rules={{ required: true }}
-        name="passwd"
-        control={control}
-        defaultValue=""
-        render={({ field }) => <TextField id="passwd" label="Password" type="password" rest={field}/>}
-      />
-      <Button id="login-btn" label="Login" type="submit"/>
-    </form>
-    <p style={{ fontWeight:"bold", color:(loginSucess ? "green":"red")}}>
-      {response}
-    </p>
-    <StaticImage
-      src="../images/gatsby-astronaut.png"
-      width={300}
-      quality={95}
-      alt="A Gatsby astronaut"
-      style={{ marginBottom: `1.45rem` }}
-    />
-    <p>
-      <Link to="/register/">Have no account? Register here!</Link> <br />
-    </p>
-  </Layout>
+    <RootContainer>
+      <Seo title="Welcome"/>
+      <ContentContainer>
+      {loading ? <Loading/>:
+      <>
+        <Typography variant="h3" style={{color:consts.colors.PRIMARY}}>
+        Peblett
+    </Typography>
+    <Underscore/>
+    <Typography variant="h5" style={{margin:"30px"}}>
+        Ethereum Wallet
+    </Typography>
+    <ButtonContainer>
+        <Button text="Create Wallet" onClick={goCreate}/>
+        <Button text="Restore Wallet" onClick={goRestore}/>
+    </ButtonContainer>
+    </>
+      }
+
+      </ContentContainer>
+    </RootContainer>
   )
 }
 
+export default Index
 
-export default IndexPage
+const RootContainer = styled.div`
+  margin:auto;
+  margin-top:30px;
+  height:70vh;
+  justify-content: center;
+`
+
+const ContentContainer = styled.div`
+  display: flex;
+  flex-direction:column;
+  margin:auto;
+  justify-content: center;
+  height:100%;
+  align-items:center;
+`
+
+const Underscore = styled.div`
+  height: 12px;
+  width: 100px;
+  background-color: white;
+  margin-top:-5px;
+`
+const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction:column;
+`
