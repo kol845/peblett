@@ -1,7 +1,10 @@
 import React, { useRef, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import Close from '@material-ui/icons/Close';
+
 import consts from '../constants/constants'
+import BackButton from './backButton'
+
 
 const Background = styled.div`
   width: 100%;
@@ -51,7 +54,7 @@ const CloseModalButton = styled(Close)`
   z-index: 10;
 `;
 
-const Modal = ({ show, setShow, children, disableModalExit=false, resetState=null }) => {
+const Modal = ({ show, setShow, children, disableModalExit=false, resetState=null, hasBackButton=false, backButtonOnClick=()=>{} }) => {
   const modalRef = useRef();
 
   const closeModal = () => {
@@ -86,13 +89,15 @@ const Modal = ({ show, setShow, children, disableModalExit=false, resetState=nul
       {show ? (
         <Background onClick={outBoundClick} ref={modalRef}>
             <ModalWrapper>
-                {children}
-                {!disableModalExit ? 
-                <CloseModalButton
-                    aria-label='Close modal'
-                    onClick={() => closeModal()}
-                />: null}
-
+              <ModalContainer>
+                  {hasBackButton && !disableModalExit? <PositionedBackButton onClick={ backButtonOnClick } /> : null}
+                  {children}
+                  {!disableModalExit ? 
+                  <CloseModalButton
+                      aria-label='Close modal'
+                      onClick={() => closeModal()}
+                  />: null}
+              </ModalContainer>
             </ModalWrapper>
         </Background>
       ) : null}
@@ -101,3 +106,16 @@ const Modal = ({ show, setShow, children, disableModalExit=false, resetState=nul
 };
 
 export default Modal
+
+const PositionedBackButton = styled(BackButton)`
+  top:10px;
+  left:10px;
+`
+const ModalContainer = styled.div`
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+  flex-direction:column;
+  height:100%;
+  width:100%;
+`

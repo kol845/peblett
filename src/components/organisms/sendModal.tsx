@@ -10,7 +10,6 @@ import Modal from '../modal'
 import TextField from '../textField'
 import Button from '../button'
 import PasswordConfirmation from '../screens/passwordConfirmation';
-import BackButton from '../backButton'
 import consts from '../../constants/constants'
 
 import { loadWallet, sendEth } from '../../utils/etherHandler'
@@ -37,7 +36,6 @@ const SendModal = ({  show, setShow, myAddress, balance }) => {
 
   const Step2 = ()=>(
     <ModalContainer>
-      <PositionedBackButton onClick={stepBack} />
       <PasswordConfirmation buttonText="Confirm & Send" onSubmit={(password)=>confirmPassword(password)}/>
     </ModalContainer>
   )
@@ -54,7 +52,7 @@ const SendModal = ({  show, setShow, myAddress, balance }) => {
   }
   return (
     <>
-        <Modal show={show} setShow={setShow} disableModalExit={loading} resetState={doReset}>
+        <Modal show={show} setShow={setShow} disableModalExit={loading} resetState={doReset} hasBackButton={step==2?true:false} backButtonOnClick={stepBack}>
         {loading ? <Loading style={{width:"50%"}}/>:
             step==1 ? 
                 <ModalContainer>
@@ -88,11 +86,6 @@ const SendModal = ({  show, setShow, myAddress, balance }) => {
 }
 
 export default SendModal
-
-const PositionedBackButton = styled(BackButton)`
-  top:10px;
-  left:10px;
-`
 
 const ModalContainer = styled.div`
   display:flex;

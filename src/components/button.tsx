@@ -7,6 +7,15 @@ import Typography from '@material-ui/core/Typography';
 
 import consts from '../constants/constants'
 
+`
+Sizes:
+full => 240px
+max => 25vw
+other => 14vw
+
+`
+
+
 const StyledButton = styled(Button)<ButtonProps>`
   width: ${(props) => (props.length=="full" ? "240px;" : props.length=="max" ? "25vw" : "14vw")};
 
@@ -24,10 +33,10 @@ const StyledButton = styled(Button)<ButtonProps>`
   `)}
 `
 
-const PebButton = ({ text, onClick, style={}, size="full" }) => {
+const PebButton = ({ text, onClick, style={}, size="full", secondary=false }) => {
   return (
     <React.Fragment>
-      <StyledButton length={size} variant="contained" color="primary" onClick={onClick} style={{...style}}>
+      <StyledButton length={size} variant={secondary?'outlined':'contained'} color='primary' onClick={onClick} style={{...style}}>
         <Typography variant="h5">
             {text}
         </Typography>

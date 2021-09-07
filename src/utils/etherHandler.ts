@@ -7,9 +7,10 @@ const provider = new ethers.providers.InfuraProvider("rinkeby", testNetAPIKey)
 const walletStorageName = "peblett_wallet"
 const addressStorageName = "peblett_address"
 
-interface Wallet{
+interface IWallet{
     encrypt:((password:string)=>object),
     address:string,
+    _mnemonic:()=>{phrase:string}
 }
 const getAddress = () =>{
     return localStorage.getItem(addressStorageName)
@@ -34,23 +35,23 @@ const createWalletFromMnemonic = async (mnemonic)=>{
     return await ethers.Wallet.fromMnemonic(mnemonic)
 }
 
-const encryptWallet = async (wallet:Wallet, password:string):Promise<string> => { // Returns wallet in JSON string format
+const encryptWallet = async (wallet:IWallet, password:string):Promise<string> => { // Returns wallet in JSON string format
     const jsonWallet = await wallet.encrypt(password);
     return JSON.stringify(jsonWallet)
 }
 const decryptWallet = async (stringWallet:string, password:string):Promise<object> => { // Returns wallet in JSON string format
-    const wallet:Wallet = await ethers.Wallet.fromEncryptedJson(JSON.parse(stringWallet), password)
+    const wallet:IWallet = await ethers.Wallet.fromEncryptedJson(JSON.parse(stringWallet), password)
     return wallet
 }
 // saveWallet() and loadWallet() deal with localStorage
-const saveWallet = async (wallet:Wallet, password:string) => {
+const saveWallet = async (wallet:IWallet, password:string) => {
     const jsonWallet = await wallet.encrypt(password);
     localStorage.setItem(walletStorageName, JSON.stringify(jsonWallet))
     localStorage.setItem(addressStorageName, wallet.address)
 }
-const loadWallet = async(password:string):Promise<object>=>{
+const loadWallet = async(password:string):Promise<IWallet>=>{
     const stringWallet = localStorage.getItem(walletStorageName)
-    const wallet:Wallet = await ethers.Wallet.fromEncryptedJson(JSON.parse(stringWallet), password)
+    const wallet:IWallet = await ethers.Wallet.fromEncryptedJson(JSON.parse(stringWallet), password)
     return wallet;
 }
 

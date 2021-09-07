@@ -11,13 +11,13 @@ import ClipboardButton from './clipboardButton'
 import IconButton from '@material-ui/core/IconButton';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 
-const RecoveryBox = ({ recPhrase }) => {
+const RecoveryBox = ({ recPhrase, style={} }) => {
     const copyToClipboard = ()=> {
         window.navigator.clipboard.writeText(recPhrase)
     }
 
     return (
-        <RotContainer>
+        <RotContainer style={{...style}}>
             <BoxContainer>
                 <Text>
                     {recPhrase}

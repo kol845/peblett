@@ -14,6 +14,8 @@ import consts from '../constants/constants'
 import Loading from '../components/loading'
 import Modal from '../components/modal'
 import SendModal from '../components/organisms/sendModal'
+import SettingsModal from '../components/organisms/settingsModal'
+
 import { Loading as LoadingDot } from 'react-loading-dot'
 
 
@@ -30,6 +32,7 @@ const Wallet = ({ location }) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [showReceive, setShowReceive] = useState<boolean>(false);
   const [showSend, setShowSend] = useState<boolean>(false);
+  const [showSettings, setShowSettings] = useState<boolean>(false);
   const [balance, setBalance] = useState<string>(null);
 
   const [qrSrc, setQrSrc] = useState<string>("");
@@ -67,7 +70,7 @@ const Wallet = ({ location }) => {
         {loading ? <Loading/>:
         <>
         <HeaderContainer>
-            <StyledIconButton ariaLabel="Go to settings" Icon={ColoredSettingsIcon} onClick={resetWallet}/>
+            <StyledIconButton ariaLabel="Go to settings" Icon={ColoredSettingsIcon} onClick={()=>setShowSettings(true)}/>
             <Typography variant="h6" style={{}}>
                 {shortAddr}
             </Typography>
@@ -92,6 +95,7 @@ const Wallet = ({ location }) => {
           </div>
         </Modal>
         <SendModal show={showSend} setShow={setShowSend} myAddress={address} balance={balance}/>
+        <SettingsModal show={showSettings} setShow={setShowSettings}/>
         </ContentContainer>
     </RootContainer>
   )
