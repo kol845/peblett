@@ -17,7 +17,7 @@ other => 14vw
 
 
 const StyledButton = styled(Button)<ButtonProps>`
-  width: ${(props) => (props.length=="full" ? "240px;" : props.length=="max" ? "25vw" : "14vw")};
+  width: ${(props) => (props.length=="full" ? "240px;" : props.length=="max" ? "25vw" : "16vw")};
 
   margin:20px 0px;
   text-transform: none;
@@ -25,10 +25,10 @@ const StyledButton = styled(Button)<ButtonProps>`
   border-radius:10px;
   ${(props) => (props.length=="full" ? "": `
     @media (max-width: ${consts.media.TABLET}) {
-      width:25vw;
+      width:35vw;
     }
     @media (max-width: ${consts.media.MOBILE}) {
-      width:40vw;
+      width:60vw;
     }
   `)}
 `

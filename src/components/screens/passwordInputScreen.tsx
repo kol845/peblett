@@ -14,7 +14,7 @@ const PasswordInputScreen = ({ onSubmit }) => {
             <TextField id="password" label="Password" value={password} type="password" onChange={(e)=>setPassword(e.target.value)}/>
             <TextField id="confirmPassword" label="Confirm Password" type="password" value={confirmPassword} onChange={(e)=>{setConfirmPassword(e.target.value)}}/>
           </TextFiledContainer>
-          <Button text="Create" onClick={()=>onSubmit(password)} />
+          <Button text="Create" onClick={()=>onSubmit(password)} size="small"/>
         </Form>
 
   )
